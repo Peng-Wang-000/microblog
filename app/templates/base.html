@@ -15,8 +15,20 @@
     <div>
         Microblog:<a href="/index">Home</a>
     </div>
-    {% block content %}
-    {% endblock %}
+    <!--显示闪现信息-->
+    <hr>
+    {% with messages = get_flashed_messages()%}
+    {% if messages %}
+    <ul>
+        {% for message in messages%}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %} {% endblock %}
+
 </body>
 
 </html>
