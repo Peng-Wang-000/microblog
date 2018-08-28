@@ -1,38 +1,14 @@
 <html>
-<head>
-    {% if title %}
-    <title>
-        {{title}} - microblog
-    </title>
-    {% else%}
-    <title>
-        Welcome microblog
-    </title>
-    {% endif %}
-</head>
-<body>
-
-    <div>
-        Microblog:
-        <a href="/index">Home</a>
-        {% if g.user.is_authenticated %}
-        | <a href="{{ url_for('logout')}}">Logout</a>
-        {% endif %}
-    </div>
-    <!--显示闪现信息-->
-    <hr>
-    {% with messages = get_flashed_messages()%}
-    {% if messages %}
-    <ul>
-        {% for message in messages%}
-        <li>{{message}}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-
-    {% block content %} {% endblock %}
-
-</body>
-
+    <head>
+      {% if title %}
+      <title>{{ title }} - Microblog</title>
+      {% else %}
+      <title>Welcome to Microblog</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Microblog: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
 </html>
