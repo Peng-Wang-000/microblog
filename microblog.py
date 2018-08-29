@@ -1,7 +1,7 @@
 from app import app, db
 from app.models import User, Post
 
-# app.run(debug=True, port=9999)
+app.run(debug=True, port=9999)
 
 
 @app.shell_context_processor
