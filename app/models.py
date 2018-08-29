@@ -13,6 +13,8 @@ class User(db.Model):
         return '<User {}>'.format(self.username)
 
 
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))

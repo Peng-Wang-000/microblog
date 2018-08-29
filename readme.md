@@ -1,13 +1,13 @@
 # 基本概念
 
-## microblog.py
-    主运行程序
-## config.py
-    配置文件
-## app.db
-    数据库文件
-## migrations
-    数据库迁移文件夹
+## 主运行程序
+   microblog.py
+## 配置文件
+   config.py
+## 数据库文件
+   app.db
+## 数据库迁移文件夹
+    migrations
     
 ## app
     static:静态文件
@@ -30,5 +30,9 @@ ORM允许应用程序使用高级实体（如类，对象和方法）而不是�
 Flask-Migrate。 这个插件是Alembic的一个Flask封装，是SQLAlchemy的一个数据库迁移框架。 
 使用数据库迁移增加了启动数据库时候的一些工作，但这对将来的数据库结构稳健变更来说，是一个很小的代价。
 
+## 数据库迁移操作
+- 创建数据库迁移存储库  (venv) $ flask db init
+- 数据库迁移 (venv) $ flask db migrate -m "users table"
+- 更改应用到数据库 (venv) $ flask db upgrade
     
     
