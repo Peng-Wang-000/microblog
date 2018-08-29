@@ -1,11 +1,22 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
+from datetime import datetime
 
 
+# 请求预处理
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        # 在引用current_user时，Flask-Login将调用用户加载函数，该函数将运行一个数据库查询并将目标用户添加到数据库会话中。
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
+
+# 首页
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -24,6 +35,7 @@ def index():
     return render_template('index.html', title='HOME', posts=posts)
 
 
+# 登录
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # current_user主要从用户会话中拿到当前用户
@@ -49,6 +61,7 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
+# 退出
 @app.route('/logout')
 def logout():
     # 该函数会将用户登录状态注册为未登录，表现会is_anonymous为TRUE
@@ -56,6 +69,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# 注册
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -70,3 +84,33 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+# 用户详情
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    # 当查不到用户是返回404
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+
+    return render_template('user.html', user=user, posts=posts)
+
+
+# 用户信息编辑
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
