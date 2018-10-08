@@ -2,7 +2,9 @@
 
 {% block content %}
     <h1>Sign In</h1>
+<!--当action设置为空字符串时，表单将被提交给当前地址栏中的URL，即当前页面。-->
     <form action="" method="post" novalidate>
+        <!--form.hidden_tag()模板参数生成了一个隐藏字段，其中包含一个用于保护表单免受CSRF攻击的token-->
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>

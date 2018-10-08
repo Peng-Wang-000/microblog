@@ -2,7 +2,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
+# 使用类来存储配置变量
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     # Flask-SQLAlchemy插件(ORM框架)从SQLALCHEMY_DATABASE_URI配置变量中获取应用的数据库的位置。

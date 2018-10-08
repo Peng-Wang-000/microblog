@@ -12,10 +12,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    # User类中创建的db.relationship为用户添加了posts属性，并为用户动态（Post）添加了author属性。 我使用author虚拟字段来调用其作者，而不必通过用户ID来处理。
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # __repr__方法用于在调试时打印用户实例
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -32,7 +34,7 @@ class User(db.Model, UserMixin):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-
+# 用户发表的动态
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
@@ -45,6 +47,7 @@ class Post(db.Model):
 
 
 # 用户加载函数 @login.user_loader装饰器来为用户加载功能注册函数。将获取的user加入用户会话中
+# Flask-Login将字符串类型的参数id传入用户加载函数，因此使用数字ID的数据库需要如上所示地将字符串转换为整数。
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

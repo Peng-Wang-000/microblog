@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Le
 from app.models import User
 
 
-# web表单使用类来表示
+# Flask-WTF插件使用Python类来表示Web表单。表单类只需将表单的字段定义为类属性即可。
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
