@@ -40,6 +40,7 @@ Flask-Migrate。 这个插件是Alembic的一个Flask封装，是SQLAlchemy的�
 - WerkZeug :完成密码哈希以及url解析
 - Flask-Login:该插件管理用户登录状态，以便用户可以登录到应用，然后用户在导航到该应用的其他页面时，应用会“记得”该用户已经登录。
 它还提供了“记住我”的功能，允许用户在关闭浏览器窗口后再次访问应用时保持登录状态。
+- Flask-WTF:处理应用中的Web表单，它对WTForms进行了浅层次的封装以便和Flask完美结合。
 ## 用户登入
 - 为flask-login准备用户模型：采用混入的方式来将flask-login与用户模型联系起来，仅仅只需要用户模型继承其提供的
 UserMixin即可，继承该类的模型会自动拥有四项属性。官方文档：https://flask-login.readthedocs.io/en/latest/
