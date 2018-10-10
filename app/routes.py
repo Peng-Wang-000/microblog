@@ -88,7 +88,10 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-# 用户详情
+"""被<和>包裹的URL <username>是动态的。 当一个路由包含动态组件时，Flask将接受该部分URL中的任何文本，并将以实际文本作为参数调用该视图函数。
+ 例如，如果客户端浏览器请求URL /user/susan，则视图函数将被调用，其参数username被设置为'susan'。 """
+
+
 @app.route('/user/<username>')
 @login_required
 def user(username):
@@ -104,8 +107,9 @@ def user(username):
 
 # 用户信息编辑
 @app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
-    form = EditProfileForm()
+    form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
